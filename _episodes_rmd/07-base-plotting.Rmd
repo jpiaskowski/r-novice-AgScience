@@ -1,0 +1,50 @@
+---
+title: Exploratory Data Analysis with Base Plotting in R
+teaching: 40
+exercises: 20
+questions:
+- "How can I use R plotting features in base R to explore data?"
+objectives:
+- "Describe best options for making plots in base R and controle features for that."
+keypoints:
+- "plotting in Base R can be fast and easy"
+- "search 'par' for plotting options"
+- "...."
+source: Rmd
+---
+
+## Exploratory Data Analysis
+
+There are some amazing plotting packages written - ggplot and a large ecosystem of ggplot extensions and so much more. But, with great visualisation power, comes great coding effort. 
+
+There is value in knowing base plotting - these are rapid ways to gain a snapshot of data and can be made publication quality.
+
+## Univariate plots
+
+### index scatterplot
+
+### histogram density plot
+
+## Multivariate plots
+
+### X-Y plots
+
+### barplot
+
+### boxplot
+
+## mess with settings
+
+## add things...
+
+Legend
+Lines
+Text
+special characters
+
+## How do you find help on plot options?
+
+## Plot methods for other objects
+
+
+
