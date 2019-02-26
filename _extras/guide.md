@@ -8,14 +8,13 @@ permalink: /guide/
 
 Leave about 30 minutes at the start of each workshop and another 15 mins
 at the start of each session for technical difficulties like WiFi and
-installing things (even if you asked students to install in advance, longer if
-not).
+installing things (even if you asked students to install in advance, longer if not).
 
 ## Lesson Plans
 
 The lesson contains much more material than can be taught in a day.
 Instructors will need to pick an appropriate subset of episodes to use
-in a standard one day course. 
+in a standard one day course.
 
 Some suggested paths through the material are:
 
@@ -73,11 +72,7 @@ $ git config --global credential.helper 'cache --timeout=10000000'
 
 ## Pulling in Data
 
-The easiest way to get the data used in this lesson during a workshop is to have
-attendees download the raw data from [gapminder-data][gapminder-data] and
-[gapminder-data-wide][gapminder-data-wide].
-
-Attendees can use the `File - Save As` dialog in their browser to save the file.
+The easiest way to get the data used in this lesson during a workshop is to have attendees download the raw data from `usethis::use_course("my/custom/url")`. This will download all the files at that address to directory located on an individual user's desktop.  
 
 ## Overall
 
