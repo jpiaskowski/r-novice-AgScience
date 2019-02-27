@@ -3,8 +3,11 @@ title: "Exploring Data Frames"
 teaching: 20
 exercises: 10
 questions:
+- "What is a data frame?"
 - "How can I manipulate a data frame?"
+- "how can I read data into R?"
 objectives:
+- "Read data into R"
 - "Add and remove rows or columns."
 - "Remove rows with `NA` values."
 - "Append two data frames."
@@ -19,7 +22,7 @@ keypoints:
 - "Use `levels()` and `as.character()` to explore and manipulate factors."
 - "Use `str()`, `summary()`, `nrow()`, `ncol()`, `dim()`, `colnames()`, `rownames()`, `head()`, and `typeof()` to understand the structure of a data frame."
 - "Read in a csv file using `read.csv()`."
-- "Understand what `length()` of a data frame represents."
+- "Understand what `length()` and `dim()` of a data frame represent."
 source: Rmd
 ---
 
@@ -28,10 +31,24 @@ source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 ```
 
-At this point, you've seen it all: in the last lesson, we toured all the basic
-data types and data structures in R. Everything you do will be a manipulation of
-those tools. But most of the time, the star of the show is the data frame—the table that we created by loading information from a csv file. In this lesson, we'll learn a few more things
-about working with data frames.
+At this point, you've seen it all: in the last lesson, we toured all the basic data types in R. Everything you do will be a manipulation of those types. Now we need to look at *data structures* - that is, a more complex structure which R builds out of the basic data types.
+
+But most of the time, the star of the show is the data frame - which is quite similar to an Microsoft Excel sheet. It is type automatically used when an external data set is imported into R. In this lesson, we will learn a few more things about working with data frames.
+
+But, first we need to learn how to load data. One of R's most powerful features is its ability to deal with tabular data -
+such as you may already have in a spreadsheet or a CSV file.
+
+The `read.table()` function is used for reading in tabular data stored in a text file where the columns of data are separated by punctuation characters such as CSV files (csv = comma-separated values). Tabs and commas are the most common punctuation characters used to separate or delimit data points in csv files.  For convenience R provides 2 other versions of `read.table()`. These are: `read.csv()`  for files where the data are separated with commas and `read.delim()` for files
+where the data are separated with tabs. Of these three functions `read.csv()` is the most commonly used.  If needed it is possible to override the default  delimiting punctuation marks for both `read.csv()` and `read.delim()`.
+
+```{r}
+
+```
+
+
+We can begin exploring our dataset right away, pulling out columns by specifying them using the `$` operator:
+
+
 
 ## Adding columns and rows in data frames
 

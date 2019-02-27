@@ -22,7 +22,7 @@ This would be tedious to type out, and impossible for high values of n. Use vect
 
 *Hint*: use `sum()`
 
-## Challenge 2
+### Challenge 2
 
 You have data composed of observations drawn from 2 distributions. We know what distribution each observation belongs to and the parameters of those distributions. 
 ```{r}

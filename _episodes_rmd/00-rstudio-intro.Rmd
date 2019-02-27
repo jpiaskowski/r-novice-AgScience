@@ -31,11 +31,10 @@ source("../bin/chunk-options.R")
 knitr_fig_path("01-")
 ```
 
-
 ## Motivation
 
 Science is a multi-step process: once you've designed an experiment and collected data, the real fun begins! This lesson will teach you how to start this process using R and RStudio. We will begin with raw data, perform exploratory analyses, and learn
-how to plot results graphically. This example starts with agricultural datasets that are publically available. Can you read the data into R? Can you plot the population for Senegal? Can you calculate the average income for countries on the continent of Asia? By the end of these lessons you will be able to do things like plot the populations for all of these countries in under a minute!
+how to plot results graphically. This example starts with agricultural datasets that are publically available. Can you read the data into R? Can you plot the change in yield for a crop over time? Can you calculate the mean acreage of a crop for each U.S. state? By the end of these lessons you will be able to do things in under a minute!
 
 ## Before Starting The Workshop
 
@@ -107,15 +106,21 @@ Undoubtedly, you've seen some outrageous file managment schemes. You may even be
 
 Rprojects can be used to automate what directory R looks to for loading and saving files. Rprojects also enable version control through Git or other versioning software. 
 
-Step 1: download all course materials: 
+**Step 1**: download all course materials: 
 ```
 library(usethis)
 use_course("...")
 ```
-Step 2: make a new Rproject in that directory: File --> New Project 
+**Step 2:** make a new Rproject in that directory: "File" --> "New Project" --> "Existing Directory" 
 
-Step 3: make your first script: File --> New File --> R Script
+Let's check the working directory to make sure it's pointing to the right place:
+```{r}
+getwd()
+```
+If the working directory needs to be set, this can be done on the command line with `setwd()` or within RStudio: "Session" --> "Set Working Directory" --> "Choose Directory..." 
 
+**Step 3**: make your first script: File --> New File --> R Script
+We will use this R script for our work today. 
 
 ## Using R as a calculator
 
@@ -160,12 +165,12 @@ When using R as a calculator, the order of operations is the same as you would h
 
 From highest to lowest precedence:
 
- * Parentheses: `(`, `)`
- * Exponents: `^` or `**`
- * Divide: `/`
- * Multiply: `*`
- * Add: `+`
- * Subtract: `-`
+ 1. Parentheses: `(`, `)`
+ 1. Exponents: `^` or `**`
+ 1. Divide: `/`
+ 1. Multiply: `*`
+ 1. Add: `+`
+ 1. Subtract: `-`
 
 ```{r}
 3 + 5 * 2
@@ -279,48 +284,9 @@ These print out either `TRUE` or `FALSE`. Both are reserved words (along with `T
 >
 {: .callout}
 
-
-> ## Challenge 1
->
-> Which of the following are valid R variable names?
-> ```{r, eval=FALSE}
-> min_height
-> max.height
-> _age
-> .mass
-> MaxLength
-> min-length
-> 2widths
-> celsius2kelvin
-> ```
->
-> > ## Solution to challenge 1
-> >
-> > The following can be used as R variables:
-> > ```{r ch1pt1-sol, eval=FALSE}
-> > min_height
-> > max.height
-> > MaxLength
-> > celsius2kelvin
-> > ```
-> >
-> > The following creates a hidden variable:
-> > ```{r ch1pt2-sol, eval=FALSE}
-> > .mass
-> > ```
-> >
-> > The following will not be able to be used to create a variable
-> > ```{r ch1pt3-sol, eval=FALSE}
-> > _age
-> > min-length
-> > 2widths
-> > ```
-> {: .solution}
-{: .challenge}
-
 ## Vectorization
 
-One final thing to be aware of is that R is *vectorized*, meaning that variables and functions can have vectors as values. In contrast to physics and mathematics, a vector in R describes a set of values in a certain order of the same data type. For example: 
+One final thing to be aware of is that R is *vectorised*, meaning that variables and functions can have vectors as values. In contrast to physics and mathematics, a vector in R describes a set of values in a certain order of the same data type. For example: 
 
 ```{r}
 1:5
@@ -345,7 +311,7 @@ This is incredibly powerful; we will discuss this further in an upcoming lesson.
 
 ## R Packages
 
-It is possible to add functions to R by writing a package, or by obtaining a package written by someone else. As of this writing, there are over 10,000 packages available on CRAN (the comprehensive R archive network). R and RStudio have functionality for managing packages:
+It is possible to add functions to R by writing a package, or by obtaining a package written by someone else. As of this writing, there are over 10,000 packages available on [CRAN](https://cran.r-project.org/web/packages/available_packages_by_name.html) (the comprehensive R archive network). R and RStudio have functionality for managing packages:
 
 * You can see what packages are installed by typing
   `installed.packages()`
@@ -355,86 +321,7 @@ It is possible to add functions to R by writing a package, or by obtaining a pac
 * You can remove a package with `remove.packages("packagename")`
 * You can make a package available for use with `library(packagename)`
 
-> ## Challenge 2
->
-> What will be the value of each  variable  after each
-> statement in the following program?
->
-> ```{r, eval=FALSE}
-> mass <- 47.5
-> age <- 122
-> mass <- mass * 2.3
-> age <- age - 20
-> ```
->
-> > ## Solution to challenge 2
-> >
-> > ```{r ch2pt1-sol}
-> > mass <- 47.5
-> > ```
-> > This will give a value of `r mass` for the variable mass
-> >
-> > ```{r ch2pt2-sol}
-> > age <- 122
-> > ```
-> > This will give a value of `r age` for the variable age
-> >
-> > ```{r ch2pt3-sol}
-> > mass <- mass * 2.3
-> > ```
-> > This will multiply the existing value of `r mass/2.3` by 2.3 to give a new value of
-> > `r mass` to the variable mass.
-> >
-> > ```{r ch2pt4-sol}
-> > age <- age - 20
-> > ```
-> > This will subtract 20 from the existing value of `r age + 20 ` to give a new value
-> > of `r age` to the variable age.
-> {: .solution}
-{: .challenge}
+## Version Control
 
+It is important to use version control with projects.  Go [here for a good lesson which describes using Git with RStudio](https://swcarpentry.github.io/git-novice/14-supplemental-rstudio/).
 
-> ## Challenge 3
->
-> Run the code from the previous challenge, and write a command to
-> compare mass to age. Is mass larger than age?
->
-> > ## Solution to challenge 3
-> >
-> > One way of answering this question in R is to use the `>` to set up the following:
-> > ```{r ch3-sol}
-> > mass > age
-> >```
-> > This should yield a boolean value of TRUE since `r mass` is greater than `r age`.
-> {: .solution}
-{: .challenge}
-
-
-> ## Challenge 4
->
-> Clean up your working environment by deleting the mass and age
-> variables.
->
-> > ## Solution to challenge 4
-> >
-> > We can use the `rm` command to accomplish this task
-> > ```{r ch4-sol}
-> > rm(age, mass)
-> > ```
-> {: .solution}
-{: .challenge}
-
-> ## Challenge 5
->
-> Install the following packages: `ggplot2`, `plyr`, `gapminder`
->
-> > ## Solution to challenge 5
-> >
-> > We can use the `install.packages()` command to install the required packages.
-> > ```{r ch5-sol, eval=FALSE}
-> > install.packages("ggplot2")
-> > install.packages("plyr")
-> > install.packages("gapminder")
-> >```
-> {: .solution}
-{: .challenge}

@@ -9,11 +9,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Challenge 1
 
-Look at the help for the `paste` function (this will come in handy often). What is the difference between the `sep` and `collapse` arguments?
+### Challenge 1
 
+What will be the final value of `mass` in this example (try to detemine this before checking in R):
 
-## Challenge 2
+```{r}
+mass <- 3
+mass <- 3.3*mass
+```
+
+### Challenge 2
+
+Look at the help for the `paste()` function (this will come in handy often). What is the difference between the `sep` and `collapse` arguments?
+
+### Challenge 3
 
 default arguments can simplify function calling. What are the default argument for `rnorm()`?

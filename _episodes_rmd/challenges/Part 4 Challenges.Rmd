@@ -1,0 +1,20 @@
+---
+  title: "Challenges - Part 4"
+author: "J. Piaskowski"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Challenge 1
+
+Create a vector of numbers 1-50 repeated 3 times and assign that to object called "mydata".
+
+### Challenge 2
+
+Convert "mydata" to a factor and assign it to a vector called "myfactor" 
+

@@ -9,8 +9,32 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Challenge 1
+### Challenge 1
 
 Write a function `inches_to_mm()` that converts inches to millimeters. There are 2.54 cm in one inch. 
+
+### Challenge 2
+
+Write a function that prints out "hello world!" whenever it is called.
+*hint*: use `print()`
+
+### Challenge 3
+
+The Poisson disribution is used frequently in count data, such as occurence of wireworms in an agricultural field. It is defined by one parameter, the mean $\lambda$ (which conveniently, is also the variance). 
+
+```{r fig.width=1.5, fig.height=1}
+# library(RCurl)
+# script <- getURL("https://raw.githubusercontent.com/rasmusab/distribution_diagrams/master/plot_dist.R", ssl.verifypeer = FALSE)
+# eval(parse(text = script))
+
+plot_dist(dists$poisson, labels = c(lambda = expression(lambda)), scale = 1)
+```
+
+The predicated number of observations, $\hat{y_i}$, for each discrete count, $k_i$ can be calculated as thus: 
+
+$$\hat{y} = \frac{\lambda^ke^{-\lambda}}{k!}$$
+Where k is any real whole number > 0. 
+
+For $\lambda = 7$, write a function to calculate the expected number of observations when k = 1, 2,...,25 (all integers from 1 to 25). *Hint*: use `factorial()` for $k!$.
 
 

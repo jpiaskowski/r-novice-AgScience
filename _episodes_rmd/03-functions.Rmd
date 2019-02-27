@@ -1,7 +1,7 @@
 ---
 title: Functions Explained
-teaching: 45
-exercises: 15
+teaching: 20
+exercises: 20
 questions:
 - "How can I write a new function in R?"
 objectives:
@@ -166,243 +166,22 @@ But fails instantly if given improper input.
 fahr_to_kelvin(temp = as.factor(32))
 ```
 
-> ## Challenge 3
->
-> Use defensive programming to ensure that our `fahr_to_celsius()` function
-> throws an error immediately if the argument `temp` is specified
-> inappropriately.
->
->
-> > ## Solution to challenge 3
-> >
-> > Extend our previous definition of the function by adding in an explicit call
-> > to `stopifnot()`. Since `fahr_to_celsius()` is a composition of two other
-> > functions, checking inside here makes adding checks to the two component
-> > functions redundant.
-> >
-> >
-> > ```{r}
-> > fahr_to_celsius <- function(temp) {
-> >   stopifnot(is.numeric(temp))
-> >   temp_k <- fahr_to_kelvin(temp)
-> >   result <- kelvin_to_celsius(temp_k)
-> >   return(result)
-> > }
-> > ```
-> {: .solution}
-{: .challenge}
 
-## More on combining functions
+If you've been writing these functions down into a separate R script (a good idea), you can load in the functions into our R session by using the `source()` function:
 
-Now, we're going to define a function that calculates the Gross Domestic Product
-of a nation from the data available in our dataset:
-
-```{r}
-# Takes a dataset and multiplies the population column
-# with the GDP per capita column.
-calcGDP <- function(dat) {
-  gdp <- dat$pop * dat$gdpPercap
-  return(gdp)
-}
+```{}
+source("path-to-my-function/my_functions.R")
 ```
-
-We define `calcGDP()` by assigning it to the output of `function`. The list of
-argument names are contained within parentheses. Next, the body of the function 
--- the statements executed when you call the function -- is contained within
-curly braces (`{}`).
-
-We've indented the statements in the body by two spaces. This makes the code
-easier to read but does not affect how it operates.
-
-When we call the function, the values we pass to it are assigned to the
-arguments, which become variables inside the body of the function.
-
-Inside the function, we use the `return()` function to send back the result.
-This `return()` function is optional: R will automatically return the results of
-whatever command is executed on the last line of the function.
-
-
-```{r}
-calcGDP(head(gapminder))
-```
-
-That's not very informative. Let's add some more arguments so we can extract
-that per year and country.
-
-```{r}
-# Takes a dataset and multiplies the population column
-# with the GDP per capita column.
-calcGDP <- function(dat, year=NULL, country=NULL) {
-  if(!is.null(year)) {
-    dat <- dat[dat$year %in% year, ]
-  }
-  if (!is.null(country)) {
-    dat <- dat[dat$country %in% country,]
-  }
-  gdp <- dat$pop * dat$gdpPercap
-
-  new <- cbind(dat, gdp=gdp)
-  return(new)
-}
-```
-
-If you've been writing these functions down into a separate R script
-(a good idea), you can load in the functions into our R session by using the
-`source()` function:
-
-```{r, eval=FALSE}
-source("functions/functions-lesson.R")
-```
-
-Ok, so there's a lot going on in this function now. In plain English, the
-function now subsets the provided data by year if the year argument isn't empty,
-then subsets the result by country if the country argument isn't empty. Then it 
-calculates the GDP for whatever subset emerges from the previous two steps. The 
-function then adds the GDP as a new column to the subsetted data and returns
-this as the final result. You can see that the output is much more informative
-than a vector of numbers.
-
-Let's take a look at what happens when we specify the year:
-
-```{r}
-head(calcGDP(gapminder, year=2007))
-```
-
-Or for a specific country:
-
-```{r}
-calcGDP(gapminder, country="Australia")
-```
-
-Or both:
-
-```{r}
-calcGDP(gapminder, year=2007, country="Australia")
-```
-
-Let's walk through the body of the function:
-
-``` {r, eval=FALSE}
-calcGDP <- function(dat, year=NULL, country=NULL) {
-```
-
-Here we've added two arguments, `year`, and `country`. We've set
-*default arguments* for both as `NULL` using the `=` operator
-in the function definition. This means that those arguments will
-take on those values unless the user specifies otherwise.
-
-```{r, eval=FALSE}
-  if(!is.null(year)) {
-    dat <- dat[dat$year %in% year, ]
-  }
-  if (!is.null(country)) {
-    dat <- dat[dat$country %in% country,]
-  }
-```
-
-Here, we check whether each additional argument is set to `null`, and whenever
-they're not `null` overwrite the dataset stored in `dat` with a subset given by 
-the non-`null` argument.
-
-I did this so that our function is more flexible for later. We can ask it to
-calculate the GDP for:
-
- * The whole dataset;
- * A single year;
- * A single country;
- * A single combination of year and country.
-
-By using `%in%` instead, we can also give multiple years or countries to those
-arguments.
-
-> ## Tip: Pass by value
->
-> Functions in R almost always make copies of the data to operate on
-> inside of a function body. When we modify `dat` inside the function
-> we are modifying the copy of the gapminder dataset stored in `dat`,
-> not the original variable we gave as the first argument.
->
-> This is called "pass-by-value" and it makes writing code much safer:
-> you can always be sure that whatever changes you make within the
-> body of the function, stay inside the body of the function.
-{: .callout}
 
 > ## Tip: Function scope
 >
 > Another important concept is scoping: any variables (or functions!) you
 > create or modify inside the body of a function only exist for the lifetime
-> of the function's execution. When we call `calcGDP()`, the variables `dat`,
-> `gdp` and `new` only exist inside the body of the function. Even if we
+> of the function's execution. When we call `fahr_to_kelvin()`, the variable
+> `kelvin` only exists inside the body of the function. Even if we
 > have variables of the same name in our interactive R session, they are
 > not modified in any way when executing a function.
 {: .callout}
-
-```{r, eval=FALSE}
-  gdp <- dat$pop * dat$gdpPercap
-  new <- cbind(dat, gdp=gdp)
-  return(new)
-}
-```
-
-Finally, we calculated the GDP on our new subset, and created a new data frame
-with that column added. This means when we call the function later we can see
-the context for the returned GDP values, which is much better than in our first 
-attempt where we got a vector of numbers.
-
-> ## Challenge 4
->
-> Test out your GDP function by calculating the GDP for New Zealand in 1987. How
-> does this differ from New Zealand's GDP in 1952?
->
-> > ## Solution to challenge 4
-> >
-> > ```{r, eval=FALSE}
-> >   calcGDP(gapminder, year = c(1952, 1987), country = "New Zealand")
-> > ```
-> > GDP for New Zealand in 1987: 65050008703
-> >
-> > GDP for New Zealand in 1952: 21058193787
-> {: .solution}
-{: .challenge}
-
-
-> ## Challenge 5
->
-> The `paste()` function can be used to combine text together, e.g:
->
-> ```{r}
-> best_practice <- c("Write", "programs", "for", "people", "not", "computers")
-> paste(best_practice, collapse=" ")
-> ```
->
->  Write a function called `fence()` that takes two vectors as arguments, called
-> `text` and `wrapper`, and prints out the text wrapped with the `wrapper`:
->
-> ```{r, eval=FALSE}
-> fence(text=best_practice, wrapper="***")
-> ```
->
-> *Note:* the `paste()` function has an argument called `sep`, which specifies
-> the separator between text. The default is a space: " ". The default for
-> `paste0()` is no space "".
->
-> > ## Solution to challenge 5
-> >
-> >  Write a function called `fence()` that takes two vectors as arguments,
-> > called `text` and `wrapper`, and prints out the text wrapped with the
-> > `wrapper`:
-> >
-> > ```{r}
-> > fence <- function(text, wrapper){
-> >   text <- c(wrapper, text, wrapper)
-> >   result <- paste(text, collapse = " ")
-> >   return(result)
-> > }
-> > best_practice <- c("Write", "programs", "for", "people", "not", "computers")
-> > fence(text=best_practice, wrapper="***")
-> > ```
-> {: .solution}
-{: .challenge}
 
 > ## Tip
 >
@@ -417,7 +196,6 @@ attempt where we got a vector of numbers.
 [man]: http://cran.r-project.org/doc/manuals/r-release/R-lang.html#Environment-objects
 [chapter]: http://adv-r.had.co.nz/Environments.html
 [adv-r]: http://adv-r.had.co.nz/
-
 
 > ## Tip: Testing and documenting
 >
