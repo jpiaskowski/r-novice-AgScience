@@ -1,0 +1,77 @@
+Introduction to R
+========================================================
+author: Julia Piaskowski
+date: February, 2019
+autosize: true
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+
+```{r eval=FALSE, include=FALSE}
+setwd("C:/Users/jpiaskowski/Documents/GitHub/LEGOMosaics/")
+library(jpeg)
+source("0_Functions.R")
+
+mosaic1 <- readJPEG("C:/Users/jpiaskowski/Documents/GitHub/r-novice-AgScience/fig/UI_admin.jpg") %>% 
+  #scale_image(c(100, 70)) %>%
+  legoize() %>% 
+  collect_bricks() 
+
+mosaic1 %>% display_set()
+```
+
+```{r, out.width="600px"}
+knitr::include_graphics("../fig/lego_admin.jpg")
+```
+
+Why Learn R? Do Fun Things & Better Analysis
+========================================================
+
+```{r, out.width="600px"}
+knitr::include_graphics("fig/UI_admin.jpg")
+```
+
+
+Why Learn R? Do Reproducible Research
+========================================================
+
+```{r, out.width="600px"}
+knitr::include_graphics("fig/wrong_data.PNG")
+
+>**Reproducible research**: with the same data and scripts, your results can be recreate independently.  
+
+
+Why Learn R? Document Your Workflow
+========================================================
+
+```{r, out.width="700px"}
+knitr::include_graphics("fig/bad_data.PNG")
+```
+
+Why Learn R? Avoid Confusing File Structure
+========================================================
+[get photo of RB work]
+
+
+Learning Objectives
+========================================================
+
+After participating in this 3-hour R workshop, you will:
+ 
+* Know the basic rules of R.
+* Be able to import and export data
+* Understand different data types in R.
+* Understand the major object types in R: data frames, vectors
+
+***
+
+* Understand how to access and use the help files in R.
+* Understand the rules for using R functions.
+* Be capable of basic plotting features: hist(), boxplot(), plot().
+* Be capable of basic data manipulation: column selection, row selection, filtering, sorting, simple summary statistics.
+* Be familiar with RStudio.
+
+
+
+

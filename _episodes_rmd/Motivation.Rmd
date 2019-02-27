@@ -1,0 +1,81 @@
+---
+title: "Introduction to R"
+author: "Julia Piaskowski"
+date: "February, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE,echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r eval=FALSE, include=FALSE}
+setwd("C:/Users/jpiaskowski/Documents/GitHub/LEGOMosaics/")
+library(jpeg)
+source("0_Functions.R")
+
+mosaic1 <- readJPEG("C:/Users/jpiaskowski/Documents/GitHub/r-novice-AgScience/fig/UI_admin.jpg") %>% 
+  #scale_image(c(100, 70)) %>%
+  legoize() %>% 
+  collect_bricks() 
+
+mosaic1 %>% display_set()
+```
+
+
+```{r, out.width="600px"}
+knitr::include_graphics("../fig/UI_admin.jpg")
+
+```
+
+
+### Why Learn R? 
+#### Do Fun Things 
+
+```{r, out.width="650px"}
+knitr::include_graphics("../fig/lego_admin.png")
+```
+
+### Why Learn R? 
+#### Access Rich Package Ecosystem
+
+```{r, out.width="650px"}
+knitr::include_graphics("../fig/package_task_view.PNG")
+```
+
+
+### Why Learn R? 
+#### Do Reproducible Research
+
+```{r, out.width="700px",fig.margin=TRUE}
+knitr::include_graphics("../fig/wrong_data.PNG")
+```
+
+>**Reproducible research**: with the same data and scripts, your results can be recreated independently.  
+
+
+### Why Learn R? 
+#### Document Your Workflow
+
+```{r, out.width="700px"}
+knitr::include_graphics("../fig/bad_data.PNG")
+```
+
+### Learning Objectives
+
+After participating in this 4-hour R workshop, you will:
+ 
+* Know the basic rules of R.
+* Be able to import and export data
+* Understand different data types in R.
+* Understand the major object types in R: data frames, vectors
+* Understand how to access and use the help files in R.
+* Understand the rules for using R functions.
+* Be capable of basic plotting features: hist(), boxplot(), plot().
+* Be capable of basic data manipulation: column selection, row selection, filtering, sorting, simple summary statistics.
+* Be familiar with RStudio.
+
+
+
+
