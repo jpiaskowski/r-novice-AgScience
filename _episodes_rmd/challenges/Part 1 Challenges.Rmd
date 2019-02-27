@@ -1,0 +1,19 @@
+---
+title: "Challenges - Part 1"
+author: "J. Piaskowski"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Challenge 1
+
+Look at the help for the `paste` function (this will come in handy often). What is the difference between the `sep` and `collapse` arguments?
+
+
+## Challenge 2
+
+default arguments can simplify function calling. What are the default argument for `rnorm()`?

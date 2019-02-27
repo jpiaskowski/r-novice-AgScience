@@ -1,0 +1,107 @@
+---
+title: Vectorization
+teaching: 10
+exercises: 15
+questions:
+- "How can I operate on all the elements of a vector at once?"
+objectives:
+- "To understand vectorized operations in R."
+keypoints:
+- "Use vectorized operations instead of loops."
+source: Rmd
+---
+
+```{r eval=FALSE, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("09-")
+```
+
+Most of R's functions are vectorised, meaning that the function will operate on all elements of a vector without needing to loop through and act on each element one at a time. This makes writing code more concise, easy to read, and less error prone.
+
+```{r}
+x <- 1:4
+x * 2
+```
+
+The multiplication happened to each element of the vector.
+
+We can also add two vectors together:
+
+```{r}
+y <- 6:9
+x + y
+```
+
+Each element of `x` was added to its corresponding element of `y`:
+
+```{r, eval=FALSE}
+x:  1  2  3  4
+    +  +  +  +
+y:  6  7  8  9
+---------------
+    7  9 11 13
+```
+
+Comparison operators, logical operators, and many functions are also
+vectorised:
+
+**Comparison operators**
+
+```{r}
+x > 2
+```
+
+**Logical operators**
+```{r}
+a <- x > 3  # or, for clarity, a <- (x > 3)
+a
+```
+
+> ## Tip: some useful functions for logical vectors
+>
+> `any()` will return `TRUE` if *any* element of a vector is `TRUE`.  
+> `all()` will return `TRUE` if *all* elements of a vector are `TRUE`.
+{: .callout}
+
+Most functions also operate element-wise on vectors:
+
+**Functions**
+```{r}
+x <- 1:4
+log(x)
+```
+
+**Vector Recycling**
+
+When the one side of vectorised operation is less than the other side, the values on the shorter side are recycled for the full length of the longer object. 
+```{r}
+d <- c(1, 1, 1, 1, 1, 1)
+d
+d *c(2, 3)
+```
+
+Vectorised operations work element-wise on 2-D structures like R matrices. If vector recycling is used, it is applied column-wise.
+
+```{r}
+# original matrix
+(m <- matrix(1:12, nrow=3, ncol=4))
+
+# matrix after transformation
+m * -1
+m*c(-1, 1, 0)
+```
+
+> ## Tip: element-wise vs. matrix multiplication
+>
+> Very important: the operator `*` gives you element-wise multiplication!
+> To do matrix multiplication, we need to use the `%*%` operator:
+>
+> ```{r}
+> m %*% matrix(1, nrow=4, ncol=1)
+> matrix(1:4, nrow=1) %*% matrix(1:4, ncol=1)
+> ```
+>
+> For more on matrix algebra, see the [Quick-R reference
+> guide](http://www.statmethods.net/advstats/matrix.html)
+{: .callout}
+

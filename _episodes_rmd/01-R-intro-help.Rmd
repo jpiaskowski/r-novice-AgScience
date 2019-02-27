@@ -1,8 +1,9 @@
 ---
 title: "Seeking Help"
-teaching: 10
+teaching: 20
 exercises: 10
 questions:
+- "what are the basic of R?"
 - "How can I get help in R?"
 objectives:
 - "To be able read R help files for functions and special operators."
@@ -18,11 +19,86 @@ source("../bin/chunk-options.R")
 knitr_fig_path("03-")
 ```
 
+## R has some picky rules
+
+R is an object-oriented language. This means data, information, even functions have to be assigned to an object. This might sounds complicated, but it is really straight forward. Assignment is most done with  the left arrow, `<-`.
+
+Let's create an object with one data point and print it out: 
+```{r}
+x1 <- 58
+x1
+```
+
+Object assignment can also be done with the equals sign, `=`:
+```{r}
+x2 = "hello"
+x2
+```
+
+But this is much less common among R users.  The most important thing is to **be consistent** with the operator you use. There are occasionally places where it is less confusing to use `<-` than `=`, and it is the most common symbol used in the community. So the recommendation is to use `<-`.
+
+
+The right hand side of the assignment can be any valid R expression. The right hand side is *fully evaluated* before the assignment occurs.
+
+```{r}
+x4 <- x1 * 4
+```
+
+Variable names can contain letters, numbers, underscores and periods. They cannot start with a number nor contain spaces at all. Different people use different conventions for long variable names, these include
+
+  * periods.between.words
+  * underscores\_between_words
+  * camelCaseToSeparateWords
+
+What you use is up to you, but again, **be consistent**.
+
+R is case sensitive! As a commond-line software, each character must be correct (there is no "close enough"). And whitespace matters (sometimes). I'll explain when whitespace matters as it comes up in this workshop                                         `"Yes"` is different from  `"yes"` and  `"Yes   "`
+
+```{r}
+# test for equality
+"Yes" == "yes"
+
+# count number of characters
+nchar("yes")
+nchar("yes    ")
+
+# this also illustrates what happens when output is not assigned to an object - it simply gets printed to the console
+```
+This also illustrated how to include comments in an R file: use `#`. 
+
+R works by calling functions. An R function is like a mathematical function: it takes several arguments and outputs a result or set of results based on what the function is intended to do. The most common format is `function_name(argument1, argument2, ...)`. Each argument is separated by a comma. This is when whitespace is less important. 
+```{r}
+# here's how to use the function rnorm() to generate a set of normally-distributed numbers given a mean and standard deviation:
+
+x3 <- rnorm(n = 20, mean = 10, sd = 2)
+x3
+# OR, with whitespace removed: 
+rnorm(n=1,mean=10,sd=2)
+```
+
+Arguments can be explicitly named, as shown above, or named by expected position. When explicitly assigning variables, always use `=`. The left arrow `<-` does not work properly inside functions. 
+Over time, you'll memorize a few functions, or there are always the help files!
+```{r}
+x4 <- rnorm(20, 10, 2)
+```
+
+Some functions don't take any arguments: 
+
+```{r}
+#to list all objects in your environment (R session)
+ls()
+```
+
+You can use `rm` to delete objects you no longer need:
+
+```{r, eval=FALSE}
+rm(x1)
+rm(x2, x3)
+```
+
 ## Reading Help files
 
-R, and every package, provide help files for functions. The general syntax to search for help on any
-function, "function_name", from a specific function that is in a package loaded into your
-namespace (your interactive R session):
+R, and every package, provide help files for functions. The general syntax to search for help on any function, "function_name", from a specific function that is in a package loaded into your namespace (your interactive R session):
 
 ```{r, eval=FALSE}
 ?function_name
@@ -166,7 +242,7 @@ your issue.
 > separator is important, especially if you are working with international
 > colleagues, because different countries have different conventions for the
 > decimal point (i.e. comma vs period).
-> hint: use `??csv` to lookup csv related functions.
+> hint: use `??csv` to lookup csv-related functions.
 > > ## Solution to Challenge 3
 > >
 > > The standard R function for reading tab-delimited files with a period

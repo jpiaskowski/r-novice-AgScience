@@ -1,0 +1,16 @@
+---
+title: "Challenges - Part 3"
+author: "J. Piaskowski"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Challenge 1
+
+Write a function `inches_to_mm()` that converts inches to millimeters. There are 2.54 cm in one inch. 
+
+
