@@ -102,8 +102,6 @@ str(vec2)
 ```
 The somewhat cryptic output from this command indicates the basic data type found in this vector - in this case `num`, character; an indication of the number of things in the vector - actually, the indexes of the vector, in this case `[1:10]`; and a few examples of what's actually in the vector - in this case, double-precision numbers. . 
 
-Individual elements in a vector can be accessed by 
-
 
 > Why is R so opinionated about what we put in our columns of data?
 > How does this help us?
@@ -185,7 +183,9 @@ length(sequence_example)
  
 ```
 
-We can look at individual elements in a vector by indexing their position with the square brackets `[ ]`. Indexing starts at 1 for the first element and ends at the length of the vector. Length can be assessed with the function `length()`.
+We can look at individual elements in a vector by indexing their position with the square brackets `[ ]`. It may look different, but the square brackets operator is a function. For vectors, it means "get the nth element".
+
+Indexing starts at 1 for the first element and ends at the length of the vector. Length can be assessed with the function `length()`.
 
 ```{r}
 mySeries <- -10:10
@@ -198,11 +198,9 @@ Vectors can also be explored with sorting algorithms:
 ```{r}
 rand <- rnorm(50)
 sort(rand)
-order(rand) #this is actually an index!
-
-sort()
+order(rand) 
 ```
-
+What is the difference between `sort()`and `order()`?
 
 Finally, you can give names to elements in your vector:
 
@@ -231,8 +229,7 @@ class(Trt)
 typeof(Trt)
 ```
 
-Now R has noticed that there are three possible categories in our data - but it also did something surprising; instead of printing out the strings we gave it, we got a bunch of integers instead. R has replaced our human-readable categories
-with numbered indices under the hood, this is necessary as many statistical calculations utilise such numerical representations for categorical data:
+Now R has noticed that there are three possible categories in our data - but it also did something surprising; instead of printing out the strings we gave it, we got a bunch of integers instead. R has replaced our human-readable categories with numbered indices under the hood, this is necessary as many statistical calculations utilise such numerical representations for categorical data:
 
 ```{r}
 str(Trt)
@@ -279,3 +276,37 @@ names(another_list)
 another_list$numbers
 ```
 The `$` is an important operator in R. In this case, we can use it to access an item in an list. We will talk about this more in this workshop. We will say no more on lists. 
+
+> ## Tip: Vector numbering in R starts at 1
+>
+> In many programming languages (C and Python, for example), the first
+> element of a vector has an index of 0. In R, the first element is 1.
+{: .callout}
+
+> ## Tip: Order of operations
+>
+> A common trip up for novices occurs when trying to skip
+> slices of a vector. It's natural to try to negate a
+> sequence like so:
+>
+> ```{r, error=TRUE, eval=FALSE}
+> x[-1:3]
+> ```
+>
+> This gives a somewhat cryptic error:
+>
+> ```{r, error=TRUE, echo=FALSE}
+> x[-1:3]
+> ```
+>
+> But remember the order of operations. `:` is really a function.
+> It takes its first argument as -1, and its second as 3,
+> so generates the sequence of numbers: `c(-1, 0, 1, 2, 3)`.
+>
+> The correct solution is to wrap that function call in brackets, so
+> that the `-` operator applies to the result:
+>
+> ```{r}
+> x[-(1:3)]
+> ```
+{: .callout}

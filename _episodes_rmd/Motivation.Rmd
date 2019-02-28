@@ -49,7 +49,7 @@ knitr::include_graphics("../fig/package_task_view.PNG")
 #### Do Reproducible Research
 
 ```{r, out.width="700px",fig.margin=TRUE}
-knitr::include_graphics("../fig/wrong_data.PNG")
+knitr::include_graphics("../fig/wrong_data2.PNG")
 ```
 
 >**Reproducible research**: with the same data and scripts, your results can be recreated independently.  
@@ -62,19 +62,27 @@ knitr::include_graphics("../fig/wrong_data.PNG")
 knitr::include_graphics("../fig/bad_data.PNG")
 ```
 
+### Why Learn R? 
+#### Clear File History & More Reproducible
+
+```{r, out.width="700px"}
+knitr::include_graphics("../fig/bad_file_mgmt.PNG")
+```
+
 ### Learning Objectives
 
 After participating in this 4-hour R workshop, you will:
  
-* Know the basic rules of R.
-* Be able to import and export data
-* Understand different data types in R.
+* Be familiar with RStudio
+* Know the basic rules of R
+* Understand how to access and use the help files in R
+* Be able to call and wriete R functions
+* Understand different data types in R
 * Understand the major object types in R: data frames, vectors
-* Understand how to access and use the help files in R.
-* Understand the rules for using R functions.
+* Be able to import and export data
 * Be capable of basic plotting features: hist(), boxplot(), plot().
-* Be capable of basic data manipulation: column selection, row selection, filtering, sorting, simple summary statistics.
-* Be familiar with RStudio.
+* Be capable of basic data manipulation: column selection, row selection, filtering, sorting, simple summary statistics
+
 
 
 

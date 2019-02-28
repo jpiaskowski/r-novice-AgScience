@@ -38,225 +38,168 @@ But most of the time, the star of the show is the data frame - which is quite si
 But, first we need to learn how to load data. One of R's most powerful features is its ability to deal with tabular data -
 such as you may already have in a spreadsheet or a CSV file.
 
-The `read.table()` function is used for reading in tabular data stored in a text file where the columns of data are separated by punctuation characters such as CSV files (csv = comma-separated values). Tabs and commas are the most common punctuation characters used to separate or delimit data points in csv files.  For convenience R provides 2 other versions of `read.table()`. These are: `read.csv()`  for files where the data are separated with commas and `read.delim()` for files
-where the data are separated with tabs. Of these three functions `read.csv()` is the most commonly used.  If needed it is possible to override the default  delimiting punctuation marks for both `read.csv()` and `read.delim()`.
+The `read.table()` function is used for reading in tabular data stored in a text file where the columns of data are separated by punctuation characters such as CSV files (csv = comma-separated values). Tabs and commas are the most common punctuation characters used to separate or delimit data points in csv files.  For convenience R provides 2 other versions of `read.table()`. These are: `read.csv()` for files where the data are separated with commas and `read.delim()` for files where the data are separated with tabs. Of these three functions, `read.csv()` is the most commonly used.  
+
+Okay, let's read some data in! First,we load a data set of plant growth under different CO2 regimes
 
 ```{r}
-
+pig_feed <- read.csv("data/pig_feeding.csv")
 ```
 
+We can see there are 50 rows of 5 variables. By clicking on the small arrow next to the object name, more information about the variables can be seen. 
 
-We can begin exploring our dataset right away, pulling out columns by specifying them using the `$` operator:
+Let's examine the data manually by clicking on the object name in the "Environment" pane. The data can be sorted by individual columns. Data frames are collections of vectors - that is each column is a single data type.  
 
+At this stage, it's important to ask ourselves if the structure R is reporting matches our intuition or expectations; do the basic data types reported for each column make sense? If not, we need to sort any problems out now before they turn into bad surprises down the road, using what we've learned about how R interprets data, and the importance of *strict consistency* in how we record our data.
 
-
-## Adding columns and rows in data frames
-
-We already learned that the columns of a data frame are vectors, so that our
-data are consistent in type throughout the columns. As such, if we want to add a
-new column, we can start by making a new vector:
-
-```{r, echo = FALSE}
-cats <- read.csv("data/feline-data.csv")
-```
+We can begin exploring columns in our data set by pulling out columns by specifying them using the `$` operator:
 
 ```{r}
-age <- c(2, 3, 5)
-cats
+weight <- pig_feed$weight2
+weight
 ```
 
-We can then add this as a column via:
+>**Tip**: you an also use `[[` to extract *a single column* from a 
+>data frame: 
+>```
+>pig_feed[["weight2"]]
+>```
+
+Compute some summary statistics on that: 
+```{r}
+mean(weight)
+median(weight)
+min(weight); max(weight)
+# range(weight) obains both the min and max    
+var(weight)
+sd(weight)
+summary(weight)
+```
+ 
+Or run`summary()`on the entire data frame and use `head()`to view the top 6 rows.
+```{r}
+head(pig_feed)
+summary(pig_feed)
+```
+Let's see what is going on in those factors with the function `levels()`;
+```{r}
+levels(pig_feed$treatment)
+levels(pig_feed$rep)
+table(pig_feed$rep) # to see counts for each level
+```
+
+> **Tip**: When working with a character variables, the function `levels()` will return 
+> nothing. Use `unique()` to find the unique levels. 
+
+Data frames do have a length, but it more clearly described by `ncol()`, `nrow()`, or `dim()`. It also has `rownames()`and `colnames` attributes.
+```{r}
+ncol(pig_feed)
+nrow(pig_feed) 
+dim(pig_feed) 
+colnames(pig_feed)
+```
+
+If you don't specify the row names during import, then the `read.csv()` function will create an index of integers from 1 to the end of the data frame for row numbers. 
+
+The column and row names are vectors. As such, they can be indexed to access a particular item. To rename a column, index it. Since "weight1" is probably the initial weight of each pig, let's rename it. 
 
 ```{r}
-cbind(cats, age)
+colnames(pig_feed)[3] <- "init_wt"
 ```
 
-Note that if we tried to add a vector of ages with a different number of entries than the number of rows in the dataframe, it would fail:
+## Indexing Data Frames
 
-```{r, error=TRUE}
-age <- c(2, 3, 5, 12)
-cbind(cats, age)
+Because, unlike vectors, data frames are in 2 dimensions and are indexed with 2 numbers using a `dataframe[row, column]` notation.  To access rows and keep all columns, leave the second number slot blank. Otherwise, the usual rules apply as for indexing vectors. 
 
-age <- c(2, 3)
-cbind(cats, age)
+```{r}
+pig_feed[1,] # just look at row 1
+pig_feed[11:20, ] # look at rows 11 - 20
+pig_feed[c(1, 25, 50), ] # look at rows 1, 25, and 50
 ```
 
-Why didn't this work? Of course, R wants to see one element in our new column
+This is sometimes called a "slice". 
+
+Likewise, to keep all rows and but select columns, keep the row slot empty:
+```{r}
+pig_feed[,4]
+```
+What happens if you try to index past the number of rows or columns? 
+
+Column indexing is particular helpful for reordering columns and omitting columns:
+```{r}
+pig_feed_reduc <- pig_feed[, c(1, 5, 4, 3)] # reorder columns, omitting column 2
+```
+
+Negative indexing removes observation. 
+```{4 eval=F}
+pig_feed[-1,] # removes row 1
+pig_feed[, -1] # remove column 1
+```
+
+
+## Adding Columns to Data Frames
+
+Vectors with the same length as the number of rows in the data set can be added using the `$` operator. Vector recycling also works in this context.
+```{r}
+pig_feed$new_var <- 1:nrow(pig_feed)
+pig_feed$change <- pig_feed$weight2 - pig_feed$init_wt
+pig_feed$year <- 2019
+```
+
+The `cbind()` function is also useful for combining data frames with the same number of rows. You must be certain that the row orders match, as R will not check. 
+
+```{r}
+pig_feed_Col <- cbind(pig_feed, pig_feed)
+```
+
+Now we have duplicate column names, which R does allow. 
+
+Note that if we tried to add a vector with a different number of entries than the number of rows in the dataframe, it would fail. R wants to see one element in our new column
 for every row in the table:
 
-```{r}
-nrow(cats)
-length(age)
-```
-
-So for it to work we need to have `nrow(cats)` = `length(age)`. Let's overwite the content of cats with our new data frame.
+Now how about adding rows? The `rbind()`function works in the same way as `cbind()`, except that rows of a data frame are lists:
 
 ```{r}
-age <- c(2, 3, 5)
-cats <- cbind(cats, age)
+newRow <- list("T9", "R1", 25, 650, 200, 51, 170, 2019)
+pig_feed_Row <- rbind(pig_feed, newRow)
 ```
 
-Now how about adding rows? We already know that the rows of a
-data frame are lists:
+Looks like our attempt to use the `rbind()` function returns a warning.  Recall that, unlike errors, warnings do not necessarily stop a function from performing its intended action.  You can confirm this by taking a look at the data frame with the function.
 
 ```{r}
-newRow <- list("tortoiseshell", 3.3, TRUE, 9)
-cats <- rbind(cats, newRow)
+tail(pig_feed_Row)
 ```
 
-Looks like our attempt to use the `rbind()` function returns a warning.  Recall that, unlike errors, warnings do not necessarily stop a function from performing its intended action.  You can confirm this by taking a look at the `cats` data frame.
-
-```{r}
-cats
-```
-
-Notice that not only did we successfully add a new row, but there is `NA` in the column *coats* where we expected "tortoiseshell" to be.  Why did this happen?
+Notice that not only did we successfully add a new row, but there is `NA` in the column "treatment" where we expected "T9" to be.  Why did this happen?
 
 ## Factors
 
-For an object containing the data type `factor`, each different value represents what is called a `level`. In our case, the `factor` "coat" has 3 levels: "black", "calico", and "tabby". R will only accept values that match one of the levels. If you add a new value, it will become `NA`.
+For an object containing the data type `factor`, each different value represents what is called a `level`. In our case, the `factor` "treatment" has 5 levels: "T1", "T1", "T3", "T4", and "T5". R will only accept values that match one of the levels. If you add a new value, it will become `NA`.
 
-The warning is telling us that we unsuccessfully added "tortoiseshell" to our
-*coat* factor, but 3.3 (a numeric), TRUE (a logical), and 9 (a numeric) were
-successfully added to *weight*, *likes_string*, and *age*, respectively, since
-those variables are not factors. To successfully add a cat with a
-"tortoiseshell" *coat*, add "tortoiseshell" as a possible *level* of the factor:
+One way to  fix that is to change a factor into a character vector; we lose the handy categories of the factor, but we can subsequently add any new character string to the column without errors:
 
 ```{r}
-levels(cats$coat)
-levels(cats$coat) <- c(levels(cats$coat), "tortoiseshell")
-cats <- rbind(cats, list("tortoiseshell", 3.3, TRUE, 9))
+pig_feed$treatment <- as.character(pig_feed$treatment)
+pig_feed_Row <- rbind(pig_feed, newRow)
 ```
 
-Alternatively, we can change a factor into a character vector; we lose the
-handy categories of the factor, but we can subsequently add any word we want to the
-column without babysitting the factor levels:
+## Removing Rows & Columns
+
+We already know that  rows and columns can be removed by indexing with negative numbers, or by selectively indexing a data frame. 
 
 ```{r}
-str(cats)
-cats$coat <- as.character(cats$coat)
-str(cats)
+pig_feed[-(1:45), ] # remove rows 1-40
+pig_feed[c(-(1:45), -3), ] # remove rows 1-40
 ```
-
-> ## Challenge 1
-> Let's imagine that 1 cat year is equivalent to 7 human years. 
-> 1. Create a vector called `human_age` by multiplying `cats$age` by 7.
-> 2. Convert `human_age` to a factor.
-> 3. Convert `human_age` back to a numeric vector using the `as.numeric()` function. Now divide it by 7 to get the original ages back. Explain what happened.
->
-> > ## Solution to Challenge 1
-> > 1. `human_age <- cats$age * 7`
-> > 2. `human_age <- factor(human_age)`. `as.factor(human_age)` works just as well.
-> > 3. `as.numeric(human_age)` yields `1 2 3 4 4` because factors are stored as integers (here, 1:4), each of which is associated with a label (here, 28, 35, 56, and 63). Converting the factor to a numeric vector gives us the underlying integers, not the labels. If we want the original numbers, we need to convert `human_age` to a character vector and then to a numeric vector (why does this work?). This comes up in real life when we accidentally include a character somewhere in a column of a .csv file supposed to only contain numbers, and forget to set `stringsAsFactors=FALSE` when we read in the data.
-> {: .solution}
-{: .challenge}
-
-## Removing rows
-
-We now know how to add rows and columns to our data frame in R—but in our
-first attempt to add a "tortoiseshell" cat to the data frame we have accidentally
-added a garbage row:
-
-```{r}
-cats
-```
-
-We can ask for a data frame minus this offending row:
-
-```{r}
-cats[-4, ]
-```
-
-Notice the comma with nothing after it to indicate that we want to drop the entire fourth row.
-
-Note: we could also remove both new rows at once by putting the row numbers
-inside of a vector: `cats[c(-4,-5), ]`
 
 Alternatively, we can drop all rows with `NA` values:
 
 ```{r}
-na.omit(cats)
+pig_feed_na <- na.omit(pig_feed)
 ```
 
-Let's reassign the output to `cats`, so that our changes will be permanent:
+We can also remove columns in our data frame in the same fashion. 
 
-```{r}
-cats <- na.omit(cats)
-```
-
-## Removing columns  
-
-We can also remove columns in our data frame. What if we want to remove the column "age". We can remove it in two ways, by variable number or by index.  
-
-```{r}
-cats[,-4]
-```
-
-Notice the comma with nothing before it, indicating we want to keep all of the rows.  
-
-Alternatively, we can drop the column by using the index name.  
-
-```{r}
-drop <- names(cats) %in% c("age")
-cats[,!drop]
-```
-
-## Appending to a data frame
-
-The key to remember when adding data to a data frame is that *columns are
-vectors and rows are lists.* We can also glue two data frames
-together with `rbind`:
-
-```{r}
-cats <- rbind(cats, cats)
-cats
-```
-But now the row names are unnecessarily complicated. We can remove the rownames,
-and R will automatically re-name them sequentially:
-
-```{r}
-rownames(cats) <- NULL
-cats
-```
-
-> ## Challenge 2
->
-> You can create a new data frame right from within R with the following syntax:
-> ```{r}
-> df <- data.frame(id = c("a", "b", "c"),
->                  x = 1:3,
->                  y = c(TRUE, TRUE, FALSE),
->                  stringsAsFactors = FALSE)
-> ```
-> Make a data frame that holds the following information for yourself:
->
-> - first name
-> - last name
-> - lucky number
->
-> Then use `rbind` to add an entry for the people sitting beside you.
-> Finally, use `cbind` to add a column with each person's answer to the question, "Is it time for coffee break?"
->
-> > ## Solution to Challenge 2
-> > ```{r}
-> > df <- data.frame(first = c("Grace"),
-> >                  last = c("Hopper"),
-> >                  lucky_number = c(0),
-> >                  stringsAsFactors = FALSE)
-> > df <- rbind(df, list("Marie", "Curie", 238) )
-> > df <- cbind(df, coffeetime = c(TRUE,TRUE))
-> > ```
-> {: .solution}
-{: .challenge}
-
-## Realistic example
-So far, you have seen the basics of manipulating data frames with our cat data;
-now let's use those skills to digest a more realistic dataset. Let's read in the
-`gapminder` dataset that we downloaded previously:
-
-```{r}
-gapminder <- read.csv("data/gapminder_data.csv")
-```
 
 > ## Miscellaneous Tips
 >
@@ -279,144 +222,3 @@ gapminder <- read.csv("data/gapminder_data.csv")
 > converting them to plain text first by using the [readxl](https://cran.r-project.org/web/packages/readxl/index.html) package.
 {: .callout}
 
-Let's investigate gapminder a bit; the first thing we should always do is check
-out what the data looks like with `str`:
-
-```{r}
-str(gapminder)
-```
-
-An additional method for examining the structure of gapminder is to use the `summary` function. This function can be used on various objects in R. For data frames, `summary` yields a numeric, tabular, or descriptive summary of each column. Factor columns are summarized by the number of items in each level, numeric or integer columns by the descriptive statistics (quartiles and mean), and character columns by its length, class, and mode.  
-
-```{r}
-summary(gapminder$country)
-```
-
-Along with the `str` and `summary` functions, we can examine individual columns of the data frame with our `typeof` function:
-
-```{r}
-typeof(gapminder$year)
-typeof(gapminder$country)
-str(gapminder$country)
-```
-
-We can also interrogate the data frame for information about its dimensions;
-remembering that `str(gapminder)` said there were 1704 observations of 6
-variables in gapminder, what do you think the following will produce, and why?
-
-```{r}
-length(gapminder)
-```
-
-A fair guess would have been to say that the length of a data frame would be the
-number of rows it has (1704), but this is not the case; remember, a data frame
-is a *list of vectors and factors*:
-
-```{r}
-typeof(gapminder)
-```
-
-When `length` gave us 6, it's because gapminder is built out of a list of 6
-columns. To get the number of rows and columns in our dataset, try:
-
-```{r}
-nrow(gapminder)
-ncol(gapminder)
-```
-
-Or, both at once:
-
-```{r}
-dim(gapminder)
-```
-
-We'll also likely want to know what the titles of all the columns are, so we can
-ask for them later:
-
-```{r}
-colnames(gapminder)
-```
-
-At this stage, it's important to ask ourselves if the structure R is reporting
-matches our intuition or expectations; do the basic data types reported for each
-column make sense? If not, we need to sort any problems out now before they turn
-into bad surprises down the road, using what we've learned about how R
-interprets data, and the importance of *strict consistency* in how we record our
-data.
-
-Once we're happy that the data types and structures seem reasonable, it's time
-to start digging into our data proper. Check out the first few lines:
-
-```{r}
-head(gapminder)
-```
-
-> ## Challenge 3
->
-> It's good practice to also check the last few lines of your data and some in the middle. How would you do this?
->
-> Searching for ones specifically in the middle isn't too hard but we could simply ask for a few lines at random. How would you code this?
->
-> > ## Solution to Challenge 3
-> > To check the last few lines it's relatively simple as R already has a function for this:
-> > 
-> > ~~~
-> > tail(gapminder)
-> > tail(gapminder, n = 15)
-> > ~~~
-> > {: .r}
-> > 
-> > What about a few arbitrary rows just for sanity (or insanity depending on your view)?
-> > ## Tip: There are several ways to achieve this.
-> > The solution here presents one form using nested functions. i.e. a function passed as an argument to another function. This might sound like a new concept but you are already using it in fact.
-> > Remember my_dataframe[rows, cols] will print to screen your data frame with the number of rows and columns you asked for (although you might have asked for a range or named columns for example). How would you get the last row if you don't know how many rows your data frame has? R has a function for this. What about getting a (pseudorandom) sample? R also has a function for this.
-> > ~~~
-> > gapminder[sample(nrow(gapminder), 5), ]
-> > ~~~
-> > {: .r}
-> {: .solution}
-{: .challenge}
-
-
-To make sure our analysis is reproducible, we should put the code
-into a script file so we can come back to it later.
-
-> ## Challenge 4
->
-> Go to file -> new file -> R script, and write an R script
-> to load in the gapminder dataset. Put it in the `scripts/`
-> directory and add it to version control.
->
-> Run the script using the `source` function, using the file path
-> as its argument (or by pressing the "source" button in RStudio).
->
-> > ## Solution to Challenge 4
-> > The contents of `scripts/load-gapminder.R`:
-> > ```{r eval = FALSE}
-> > download.file("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder_data.csv", destfile = "data/gapminder_data.csv")
-> > gapminder <- read.csv(file = "data/gapminder_data.csv")
-> > ```
-> > To run the script and load the data into the `gapminder` variable:
-> > ```{r eval = FALSE}
-> > source(file = "scripts/load-gapminder.R")
-> > ```
-> {: .solution}
-{: .challenge}
-
-> ## Challenge 5
->
-> Read the output of `str(gapminder)` again;
-> this time, use what you've learned about factors, lists and vectors,
-> as well as the output of functions like `colnames` and `dim`
-> to explain what everything that `str` prints out for gapminder means.
-> If there are any parts you can't interpret, discuss with your neighbors!
->
-> > ## Solution to Challenge 5
-> >
-> > The object `gapminder` is a data frame with columns
-> > - `country` and `continent` are factors.
-> > - `year` is an integer vector.
-> > - `pop`, `lifeExp`, and `gdpPercap` are numeric vectors.
-> >
-> {: .solution}
-{: .challenge}
