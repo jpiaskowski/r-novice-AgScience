@@ -83,7 +83,15 @@ After participating in this 4-hour R workshop, you will:
 * Be capable of basic plotting features: hist(), boxplot(), plot().
 * Be capable of basic data manipulation: column selection, row selection, filtering, sorting, simple summary statistics
 
+### *Brought to you by...STATISTICAL PROGRAMS!!*
 
+*Statistical consulting to support the College of Agriculture and Life Sciences.*
 
+**Bill Price**, Director, bprice@uidaho.edu, AgSci307  
 
+**Julia Piaskowski**, jpiaskowski@uidaho.edu, AgSci 305  
+
+```{r, echo=FALSE,out.width="49%", out.height="20%",fig.cap="Statistical Consultants",fig.show='hold',fig.align='center'}
+knitr::include_graphics(c("../fig/The_Incredible_Hulk.jpg", "../fig/captain_marvel_binary.jpg"))
+```
 

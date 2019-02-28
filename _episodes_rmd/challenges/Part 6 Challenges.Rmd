@@ -1,0 +1,23 @@
+---
+title: "Challenges - Part 6"
+author: "J. Piaskowski"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Challenge 1
+
+Filter CO2 data set for all observation with growth greater than the median. Do the same for growth greater than the mean. How do these differ? 
+
+### Challenge 2
+
+Calculate the harvest index (yield / unit area) for alfalfa, filter for the top 10% and bottom 10% and sort the results. Do any pattern emerge for year or state? 
+
+### Challenge 3
+
+Write a function that computes the correlation coefficient, `cor()` for yields for one year compared to another yield. Use From the hay data set, select rows which occur on 10-year increments (e.g. 1920, 1940, etc). 

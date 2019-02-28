@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Challenge 1
 
-What will be the final value of `mass` in this example (try to detemine this before checking in R):
+What will be the final value of `mass` in this example (try to determine this before checking in R):
 
 ```{r}
 mass <- 3

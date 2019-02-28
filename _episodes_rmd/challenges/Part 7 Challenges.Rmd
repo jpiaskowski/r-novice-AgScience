@@ -1,0 +1,39 @@
+---
+title: "Challenges - Part 7"
+author: "J. Piaskowski"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Plotting with Base R
+
+### Challenge 1
+
+For this workshop, the following are the final counts for registrants:
+
+AVS: 14
+EPPN: 12
+Plant Science: 10
+Soil and Water: 9
+Food Science: 5
+Extension: 5
+Other: 3
+
+**Hint:** use `sum()`
+
+Calculate the percentage of each relative to totol registrants. Plot those results in a barplot. 
+
+### Challenge 2
+
+Filter the hay data set for 2 states and make a scatter plot comparing the reported annual yield of one state with that of the second. 
+
+Bonus: add vertical and horizontal lines indicates the means for the x and y variables, respectively
+
+### Challenge 3
+
+Convert challenge 2 into an R function that will work for any two U.S. states listed in the hay data set. 
+

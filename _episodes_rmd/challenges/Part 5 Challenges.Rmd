@@ -1,0 +1,25 @@
+---
+title: "Challenges - Part 5"
+author: "J. Piaskowski"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Challenge 1
+
+read in CO2 dataset and examine it - does it look reasonable? 
+
+### Challenge 2
+
+Filter the data set for growth at the lowest level of CO2 treatment and calculate the mean and standard deviation of that. 
+
+### Challenge 3
+
+Write a function that prints the summary statistics mean, median, var, min and max for a given vector to the console. 
+
+**Hint**: use either `print()` or `cat()`

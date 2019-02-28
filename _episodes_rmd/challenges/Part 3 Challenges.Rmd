@@ -23,9 +23,9 @@ Write a function that prints out "hello world!" whenever it is called.
 The Poisson disribution is used frequently in count data, such as occurence of wireworms in an agricultural field. It is defined by one parameter, the mean $\lambda$ (which conveniently, is also the variance). 
 
 ```{r fig.width=1.5, fig.height=1}
-# library(RCurl)
-# script <- getURL("https://raw.githubusercontent.com/rasmusab/distribution_diagrams/master/plot_dist.R", ssl.verifypeer = FALSE)
-# eval(parse(text = script))
+library(RCurl)
+script <- getURL("https://raw.githubusercontent.com/rasmusab/distribution_diagrams/master/plot_dist.R", ssl.verifypeer = FALSE)
+eval(parse(text = script))
 
 plot_dist(dists$poisson, labels = c(lambda = expression(lambda)), scale = 1)
 ```

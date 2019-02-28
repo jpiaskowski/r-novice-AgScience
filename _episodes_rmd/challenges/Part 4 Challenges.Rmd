@@ -1,5 +1,5 @@
 ---
-  title: "Challenges - Part 4"
+title: "Challenges - Part 4"
 author: "J. Piaskowski"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: html_document
@@ -17,4 +17,8 @@ Create a vector of numbers 1-50 repeated 3 times and assign that to object calle
 ### Challenge 2
 
 Convert "mydata" to a factor and assign it to a vector called "myfactor" 
+
+### Challenge 3
+
+Create a new vector that has everything 10th element from "mydata" created in Challenge 1.  
 

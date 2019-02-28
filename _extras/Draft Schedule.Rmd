@@ -1,0 +1,29 @@
+---
+title: "Tentative Workshop Schedule"
+author: "Julia Piaskowski, CALS Statistical Programs, University of Idaho"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+
+### Part I
+
+1. Introduction to R and RStudio
+1. How to find help in R
+1. Vectorisation 
+1. Using and writing functions
+
+$$break$$
+
+### Part II
+
+1. Data types
+1. Data structures & data import
+1. Subsetting data
+1. Plotting data
+1. Writing data to files
+1. Wrap-up
