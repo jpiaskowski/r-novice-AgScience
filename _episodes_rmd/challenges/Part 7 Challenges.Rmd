@@ -13,19 +13,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Challenge 1
 
-For this workshop, the following are the final counts for registrants:
+For this workshop, the following were the final counts for registrants:
 
-AVS: 14
-EPPN: 12
-Plant Science: 10
-Soil and Water: 9
-Food Science: 5
-Extension: 5
-Other: 3
-
-**Hint:** use `sum()`
+AVS: 14  
+EPPN: 12  
+Plant Science: 10  
+Soil and Water: 9  
+Food Science: 5  
+Extension: 5  
+Other: 3  
 
 Calculate the percentage of each relative to totol registrants. Plot those results in a barplot. 
+**Hint:** use `sum()`
 
 ### Challenge 2
 
