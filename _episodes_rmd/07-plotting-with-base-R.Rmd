@@ -1,0 +1,194 @@
+---
+title: Exploratory Data Analysis with Base Plotting in R
+teaching: 20
+exercises: 10
+questions:
+- "How can I use R plotting features in base R to explore data?"
+objectives:
+- "Describe best options for making plots in base R and controle features for that."
+keypoints:
+- "the function `plot()` produces different results depending on the type of object it operates on"
+- "search 'par' for plotting options"
+source: Rmd
+---
+
+```{r, include=FALSE}
+# source("../bin/chunk-options.R")
+# knitr_fig_path("07-")
+```
+
+## Exploratory Data Analysis
+
+Before diving into analysis, it good to get a visual understanding of a data set. Plotting data can provide a gimpse into major patterns and can help you detect unexpected patterns and outlying observations. 
+
+Data visualisation is one of the R's strengths. R can produce very quick plots for a snapshot of the data, and it can also be used to produce publication-quality graphs. There are some amazing plotting packages written - **ggplot** is one such prominent example.  This section will focus on plotting with base R functions.  
+
+## Univariate plots
+
+The `plot()` is the most common plot command, likely because it is very flexible. Let's start by creating a vector of 100 numbers using the function `rnorm()` which generates random numbers from the normal distribution assuming a mean of 0 and standard deviation of 1. 
+
+```{r}
+myvec <- rnorm(100)
+```
+
+When calling the plot command for one numeric vector, it will plot the index, or the position of each item in the vector versus its actual value:
+
+```{r}
+plot(myvec)
+```
+
+R functions can be passed within `plot()` call: 
+```{r}
+plot(sort(myvec))
+```
+
+R executed this statement starting with the innermost function first, followed by the outermost function. It's important to note that this function by itself did not reorder "myvec". Reordering occurred for this plotting function call only. You check by by looking at myvec:
+
+```{r}
+myvec
+```
+
+We also view these data as a histogram: 
+```{r}
+hist(myvec)
+```
+
+The breakpoints of the histograms bin can be manually adjusted. Below is one way to set the number of breaks, but there are other ways that can be explored in the documentation for the `hist()` function.
+ 
+```{r}
+
+hist(myvec, breaks = 15)
+```
+ 
+We can also create a density plot with the `density()`function: 
+
+```{r}
+plot(density(myvec))
+```
+
+You may have noticed that the axis labels are being automatically generated. We can adjust this, along with many other aspects of these plots. 
+
+> **Tip**: if you search for `?plot` in R's help functions, you'll be disappointed by how little documentation is returned. As it turns out `plot()` is a generic command that produces very different results dependong on the type of object it is acting on. To search for help for using the function `plot()` on a data frame or on vectors, search for `?par`. The information provided there on adjusting the titles, colors and similar also works for `barplot()`, `boxplot()`, `hist()`, density plots and other base plotting functions. The documentation for `barplot()`, `boxplot()`, and `hist()` is more extensive, thankfully. 
+
+```{r}
+hist(myvec, breaks = 10, col = "springgreen", main = "My title", xlab = "frequency", ylab = "value", col.lab = "navy", cex.axis = 1.5, cex.main = 1.5, cex.lab = 1.5)
+```
+
+Let's break down what happened. The parameter "cex" is short for "character expansion factor" and is the amount of increase the size of an item. It's a magnification level - so 1.5 increases things by 1.5 times. The argument "cex.axis" increases the axis tick labels, "cex.main" increase the title size, and "cex.lab" increases the axis labels. "cex" by itself magnifies points. The color of the histogram was set, as well at the axis text. There are many, many more plotting options. With great power, comes great coding effort. 
+
+Two plots can also be overlaid with `par(new = T)`. When overlaying plots, the axes, labels and title of one plot should be suppressed to avoid overplotting. That can be done by setting `axes = F` and setting all labels as "NA". 
+```{r}
+hist(myvec, breaks = 10, col = "springgreen", main = "Histogram + Density", 
+     xlab = "frequency", ylab = "value",  cex.axis = 1.5, cex.main = 1.5, cex.lab = 1.5)
+par(new = T)
+plot(density(myvec), axes = F, xlab = NA, ylab = NA, main = NA, lwd = 2) # "lwd" is the linewidth
+```
+
+There are also function for generatig a quantile-quantile (qq) plot, which is handy for diagnosing departures from normality.  
+```{r}
+qqnorm(myvec, col = "violetred")
+qqline(myvec)
+```
+
+Even using a function like `rnorm` to generate normally-distributed data, there is still departures  from the expected distribution! 
+
+You may also have noticed there's some unusual colors being used in these examples. R has hundreds of colors available for plotting and create any color given either the hexadecimal representation or RGB (red, blue, green) numbers. You can view the standard colors by running `demo("colors")` in the R console. 
+
+## Multivariate plots
+
+For this, let's load some data first. The "hay" data set is a historical NASS datset of alfalfa acreage and yield (tons/acre) for each U.S. state and year from 1909 to 2012.   
+
+```{r}
+hay <- read.csv("data/historical_hay_data.csv")
+
+```
+
+Plots between 2 variables, x-y plots, are great ways to get a quick look at the relationship between two variables. First, let's filter the data for only data from Idaho. Then, we can plot yield over time. 
+
+```{r}
+hay_idaho <- hay[hay$state == "Idaho", ]
+plot(hay_idaho$year, hay_idaho$yield)
+```
+The default labels are a little annoying. Let's also try a different plotting symbol:
+
+```{r}
+plot(hay_idaho$year, hay_idaho$yield, ylab = "yield", xlab = "year", pch = 21, col = "gray20", bg = "chartreuse")
+```
+
+Or plot it as a line: 
+```{r}
+plot(hay_idaho$year, hay_idaho$yield, type = "l", col = "blue")
+```
+
+R's `barplot()` function takes the bar heights as the first argument. Because there are 49 states, a normal barplot will be a bit squished, so it makes sense to rotate it to the horizontal direction using "horiz = T".
+
+```{r out.height=7, fig.height=7}
+hay2012 <- hay[hay$year == 2012,]
+barplot(hay2012$acres, names.arg = hay2012$state, horiz = T)
+```
+Acreage is on a large scale, so it might make sense to scale it down just for this plot. Also the labels should be rotated using the argument `las = 2`. 
+
+```{r out.height=7, fig.height=7}
+par(mar = c(5, 10, 1, 1)) #set margins as a vector (bottom, left, top, right)
+barplot(hay2012$acres/1000, names.arg = hay2012$state, 
+        horiz = T, xlab = "yield (1000 acres)", las = 2, col = rainbow(n = nrow(hay2012))) #rainbow colors added just for fun
+```
+
+Barplots can be useful, but they can also be [misleading](https://simplystatistics.org/2019/02/21/dynamite-plots-must-die/). Boxplots are a decent alternative.  
+
+```{r}
+hay_pnw <- hay[hay$state %in% c("Idaho", "Washington", "Oregon"), ]
+
+boxplot(hay_pnw$acres ~ hay_pnw$state, col = c("red", "green", "yellow"))
+```
+
+Whoa, that's weird. This happened because "hay$state" is a factor and still has other levels. This can be solved by converting it to type "character".
+
+```{r}
+hay_pnw$state <- as.character(hay_pnw$state)
+boxplot(hay_pnw$acres ~ hay_pnw$state, col = c("red", "green", "yellow"))
+```
+How do alfalfa yields in the Pacific Northwest look like across year? These can be plotted on top of each other and colored by a factor. Let's also start using the `with()` statement to avoid constantly having name what R object to use. The function `with()` instructs R to use that object. It works by first naming which object to use, and then is followed by whatever function will call that object. 
+
+They can also be combined into a single plot and colored by state:
+```{r}
+with(hay_pnw, plot(year, yield, col = as.factor(state)))
+```
+
+Adding a legend would be helpful in interpretation: 
+
+```{r}
+with(hay_pnw, plot(year, yield, col = as.factor(state))) 
+    #as.factor() will order levels alphabetically, so ("Idaho", "Oregon", "Washington")
+
+legend("topleft", 
+  legend = c("Idaho", "Oregon", "Washington"), 
+  col = c("green", "black", "red"), 
+  pch = 1)
+```
+
+## Some extras:
+
+To add stright lines to a plot, use the 'abline()`function. For arguments, it takes an intercept and slope, or it can take a single argument for a horizontal lines or vertical line
+
+```{r}
+plot(myvec)
+abline(h = 0, col = "green") # horizontal line
+abline(v = 25, col = "purple") # vertical line
+```
+```{r}
+x1 <- sort(rnorm(100))
+x2 <- sort(rnorm(100))
+plot(x1, x2)
+abline(a = 0, b = 1, col = "magenta") # plot a line with an intercept of zero and slope of one
+```
+
+Special characters can also be incorported into plot, as part of the standard lables or extra text added to the plot.  
+
+```{r}
+m = round(mean(hay$yield, na.rm = T), 2)
+hist(hay$yield, xlab = "yield (tons/acre)", col = "darkcyan", main = "Alfalfa Yield",
+     sub = bquote(mu == .(m)))
+text(x = 6, y = 1000, label = expression(paste(mu, ", ", sigma))) 
+```
+

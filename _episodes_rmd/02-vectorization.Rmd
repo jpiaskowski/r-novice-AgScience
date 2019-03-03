@@ -12,8 +12,8 @@ source: Rmd
 ---
 
 ```{r eval=FALSE, include=FALSE}
-source("../bin/chunk-options.R")
-knitr_fig_path("09-")
+# source("../bin/chunk-options.R")
+# knitr_fig_path("02-")
 ```
 
 Most of R's functions are vectorised, meaning that the function will operate on all elements of a vector without needing to loop through and act on each element one at a time. This makes writing code more concise, easy to read, and less error prone.
@@ -61,7 +61,6 @@ a
 >
 > `any()` will return `TRUE` if *any* element of a vector is `TRUE`.  
 > `all()` will return `TRUE` if *all* elements of a vector are `TRUE`.
-{: .callout}
 
 Most functions also operate element-wise on vectors:
 
@@ -103,5 +102,4 @@ m*c(-1, 1, 0)
 >
 > For more on matrix algebra, see the [Quick-R reference
 > guide](http://www.statmethods.net/advstats/matrix.html)
-{: .callout}
 

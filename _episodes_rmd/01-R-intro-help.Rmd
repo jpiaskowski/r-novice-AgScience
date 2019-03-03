@@ -15,8 +15,8 @@ source: Rmd
 ---
 
 ```{r, include=FALSE}
-source("../bin/chunk-options.R")
-knitr_fig_path("03-")
+# source("../bin/chunk-options.R")
+# knitr_fig_path("01-")
 ```
 
 ## R has some picky rules
@@ -125,7 +125,6 @@ Different functions might have different sections, but these are the main ones y
 > available. It would be prohibitive, if not impossible to remember the
 > correct usage for every function you use. Luckily, the help files
 > mean you don't have to!
-{: .callout}
 
 ## Special Operators
 

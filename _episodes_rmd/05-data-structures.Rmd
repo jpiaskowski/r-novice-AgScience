@@ -27,26 +27,27 @@ source: Rmd
 ---
 
 ```{r, include=FALSE}
-source("../bin/chunk-options.R")
-knitr_fig_path("05-")
+# source("../bin/chunk-options.R")
+# knitr_fig_path("05-")
 ```
 
 At this point, you've seen it all: in the last lesson, we toured all the basic data types in R. Everything you do will be a manipulation of those types. Now we need to look at *data structures* - that is, a more complex structure which R builds out of the basic data types.
 
 But most of the time, the star of the show is the data frame - which is quite similar to an Microsoft Excel sheet. It is type automatically used when an external data set is imported into R. In this lesson, we will learn a few more things about working with data frames.
 
-But, first we need to learn how to load data. One of R's most powerful features is its ability to deal with tabular data -
-such as you may already have in a spreadsheet or a CSV file.
+But, first we need to learn how to load data. One of R's most powerful features is its ability to deal with tabular data - such as you may already have in a spreadsheet or a CSV file.
 
 The `read.table()` function is used for reading in tabular data stored in a text file where the columns of data are separated by punctuation characters such as CSV files (csv = comma-separated values). Tabs and commas are the most common punctuation characters used to separate or delimit data points in csv files.  For convenience R provides 2 other versions of `read.table()`. These are: `read.csv()` for files where the data are separated with commas and `read.delim()` for files where the data are separated with tabs. Of these three functions, `read.csv()` is the most commonly used.  
 
-Okay, let's read some data in! First,we load a data set of plant growth under different CO2 regimes
+Okay, let's read some data in! First,we load a data set of pig growth under different feeds. 
 
 ```{r}
-pig_feed <- read.csv("data/pig_feeding.csv")
+pig_feed <- read.csv("data/pig_feed_trial.csv")
 ```
 
-We can see there are 50 rows of 5 variables. By clicking on the small arrow next to the object name, more information about the variables can be seen. 
+Looking at the environment tab, we can see there are 50 rows of 5 variables. By clicking on the small arrow next to the object name, more information about the variables can be seen.
+![RStudio env tab](../fig/env_tab.png)
+
 
 Let's examine the data manually by clicking on the object name in the "Environment" pane. The data can be sorted by individual columns. Data frames are collections of vectors - that is each column is a single data type.  
 
@@ -81,6 +82,7 @@ Or run`summary()`on the entire data frame and use `head()`to view the top 6 rows
 head(pig_feed)
 summary(pig_feed)
 ```
+
 Let's see what is going on in those factors with the function `levels()`;
 ```{r}
 levels(pig_feed$treatment)
@@ -117,7 +119,7 @@ pig_feed[11:20, ] # look at rows 11 - 20
 pig_feed[c(1, 25, 50), ] # look at rows 1, 25, and 50
 ```
 
-This is sometimes called a "slice". 
+This is called a "slice". 
 
 Likewise, to keep all rows and but select columns, keep the row slot empty:
 ```{r}
@@ -135,7 +137,6 @@ Negative indexing removes observation.
 pig_feed[-1,] # removes row 1
 pig_feed[, -1] # remove column 1
 ```
-
 
 ## Adding Columns to Data Frames
 
@@ -219,6 +220,5 @@ We can also remove columns in our data frame in the same fashion.
 > ```
 >
 > * You can read directly from excel spreadsheets without
-> converting them to plain text first by using the [readxl](https://cran.r-project.org/web/packages/readxl/index.html) package.
-{: .callout}
+> converting them to plain text first by using the [readxl](https://cran.r-project.org/web/packages/readxl/index.html) package. 
 
