@@ -32,7 +32,7 @@ d <- matrix(1:12, nrow = 3, ncol = 4)
 typeof(d)
 ```
 
-There are 5 main types: `double`, `integer`, `complex`, `logical` and `character`. On a pratical level
+There are 5 main types: `double`, `integer`, `complex`, `logical` and `character`.
 
 ```{r}
 typeof(3.14)
@@ -67,7 +67,7 @@ another_vector <- vector(mode='character', length=3)
 another_vector
 ```
 
-You can check if something is a vector and it's type:
+You can check if something is a vector and its type:
 
 ```{r}
 is.vector(another_vector)
@@ -237,7 +237,7 @@ str(factor_ordering_example)
 
 In this case, we've explicitly told R that "control" should be represented by 1, and "case" by 2. This designation can be very important for interpreting the results of statistical models! 
 
-There is a fantastic program for manipulating factors on CRAN called [**forcat**](https://forcats.tidyverse.org/). 
+> **Tip:** There is a fantastic program for manipulating factors on CRAN called [**forcats**](https://forcats.tidyverse.org/). 
 
 ## Lists
 
